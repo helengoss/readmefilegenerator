@@ -1,0 +1,4 @@
+python >= 3.7
+
+InquirerPy works cross platform for all OS. Although Unix platform may have a better experience than Windows.
+
