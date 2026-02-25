@@ -1,78 +1,98 @@
+# In this whole CLI (Command Line Interface - runningnsoley in the terminal) tool/utility has
+# Python as the core language, the foundation that handles variables, data structures, 
+# classes, file I/O, logic, and flow control, creating the Readme class, storing the user input, 
+# generating the Markdown string, writing to a file.
+# InquirerPy is a library (which uses its own functions, classes, and methods) built on top of Python. Its job is very specific: it makes it easy 
+# to create interactive command-line prompts like text input, yes/no confirms, or drop-down selections.
+# when you see inquirer.text or inquirer.select/test/confirm thats inquirerpy
+
 from InquirerPy import inquirer
-
-# Project title
-title = inquirer.text("What's your project title?").execute()
-
-# Confirm yes/no
-confirm = inquirer.confirm("Confirm?").execute()
-
-# Description
-description = inquirer.text("Enter project description:").execute()
-description_confirm = inquirer.confirm("Confirm?").execute()
-
-# Installation instructions
-installation = inquirer.text("Enter installation instructions:").execute()
-installation_confirm = inquirer.confirm("Confirm?").execute()
-
-# Usage information
-usage = inquirer.text("Enter usage information:").execute()
-usage_confirm = inquirer.confirm("Confirm?").execute()
-
-# Dropdown example
-choice = inquirer.select(
-    "Select a licence:",
-    choices=["MIT Licence", 
-             "GNU General Public Licence (GPL v3)", 
-             "GNU Lesser General Public Licence (LGPL v3)", 
-             "Mozilla Public Licence 2.0", 
-             "Creative Common (CC0/CC BY/variants)", 
-             "No license"]
-).execute()
-
-# Authors Name
-author = inquirer.text("Enter author's name:").execute()
-author_confirm = inquirer.confirm("Confirm?").execute()
-
-# Contact information
-contact = inquirer.text("Enter contact information:").execute()
-contact_confirm = inquirer.confirm("Confirm?").execute()
-
-# Print all results
-print(f"Project title: {title}")
-print(f"Confirmed: {confirm}")
-print(f"Description: {description} (Confirmed: {description_confirm})")
-print(f"Installation: {installation} (Confirmed: {installation_confirm})")
-print(f"Usage: {usage} (Confirmed: {usage_confirm})")
-print(f"You selected: {choice}")
-print(f"Author: {author} (Confirmed: {author_confirm})")
-print(f"Contact: {contact} (Confirmed: {contact_confirm})")
+from questions import Readme #tells this page to read the MODULE questions.py file
 
 
-if confirm:
-    readme_content = f"""# {title}
+# this code asks the user questions using InquirerPy and calls the CLASS (defined in the MODULE questions.py) to write the file
+def main():
+    # Project title
+    title = inquirer.text("What's your project title?").execute()
+    confirm = inquirer.confirm("Confirm project title?").execute()
+    if not confirm:
+        print("README generation cancelled.")
+        return
 
-## Description
-{description}
+    # Description
+    description = inquirer.text("Enter project description:").execute()
+    if not inquirer.confirm("Confirm description?").execute():
+        print("README generation cancelled.")
+        return
 
-## Installation
-{installation}
+    # Installation instructions
+    installation = inquirer.text("Enter installation instructions:").execute()
+    if not inquirer.confirm("Confirm installation instructions?").execute():
+        print("README generation cancelled.")
+        return
 
-## Usage
-{usage}
+    # Usage information
+    usage = inquirer.text("Enter usage information:").execute()
+    if not inquirer.confirm("Confirm usage information?").execute():
+        print("README generation cancelled.")
+        return
 
-## Licence
-{choice}
+    # Licence selection
+    licence = inquirer.select(
+        message="Select a licence:",
+        choices=[
+            "MIT Licence",
+            "GNU General Public Licence (GPL v3)",
+            "GNU Lesser General Public Licence (LGPL v3)",
+            "Mozilla Public Licence 2.0",
+            "Creative Commons (CC0 / CC BY)",
+            "Unlicensed"
+        ]
+    ).execute()
 
-## Author
-{author}
+    # Author name
+    author = inquirer.text("Enter author's name:").execute()
+    if not inquirer.confirm("Confirm author name?").execute():
+        print("README generation cancelled.")
+        return
 
-## Contact
-{contact}
-"""
+    # Contact information
+    contact = inquirer.text("Enter contact information:").execute()
+    if not inquirer.confirm("Confirm contact information?").execute():
+        print("README generation cancelled.")
+        return
 
-    with open("README.md", "w") as file:
-        file.write(readme_content)
+    # Create Readme object
+    readme = Readme(
+        title=title,
+        description=description,
+        installation=installation,
+        usage=usage,
+        licence=licence,
+        author=author,
+        contact=contact
+    )
 
+    # Write README.md
+    readme.write_to_file()
     print("README.md has been generated successfully.")
-else:
-    print("README generation cancelled by user.")
+
+# this next line this line ensures that the program starts running your main function 
+# only when you run main.py directly, keeping the file safe to import elsewhere without 
+# immediately executing the code. Python uses this convention for clean, modular scripts.
+if __name__ == "__main__":
+    main()
+
+    # InquirerPy Library (https://inquirerpy.readthedocs.io/)
+    # InquirerPy has it own “library reference” for the module. 
+    # This is where you can see all the prompt types 
+    # (text(), confirm(), select() 
+    # what arguments they take, 
+    # and how to call methods like .execute()
+
+# The wholelibrary also will show you;
+# How to import the module (from InquirerPy import inquirer)
+# Examples of asking questions, confirming input, and selecting from choices
+# All the prompt types you can use
+# Tips for advanced features like key bindings, default values, and stylingips 
+# for advanced features like key bindings, default values, and styling
