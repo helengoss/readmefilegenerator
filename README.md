@@ -1,7 +1,8 @@
-# README file generator
+# README file generator 
+
 
 ## Description
-This CLI (command line application) will create a README file for you, prompting you with questions for what you want in your REDAME file, within the terminal, then create the file (or overwrite the existing)
+This CLI (command line application) will create a README file for you, prompting you with questions for what you want in your REDAME file, within the terminal, then create the file (or overwrite the existing readme)
 
 ## Installation
 Clone the repository
@@ -16,7 +17,7 @@ Running python3 main.py
 What inputs the program asks for (CLI)Example outputs
 
 ## Licence
-No license
+Unlicensed
 
 ## Author
 Helen
